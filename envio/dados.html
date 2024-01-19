@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Usuário - Yelly</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Y.</div>
+            <h1>yelly</h1>
+            <ol class="steps">
+                <li>Criação da conta de usuário</li>
+                <li>Validação de E-mail e Celular</li>
+                <li>Configuração da conta</li>
+                <li>Dados básicos e endereço</li>
+                <li>Confirmação dos dados</li>
+            </ol>
+        </div>
+        <div class="form-container">
+            <div class="form-title">Para dar continuidade informe alguns dados básicos</div>
+            <p class="form-description">Após esse pré-cadastro não precisará fazer isso novamente!</p>
+            <form action="dados.php" method="post">
+                <input type="text" id="nome" name="nome" placeholder="Exemplo: Napoleão de Viana Assunção" required>
+                <input type="tel" id="telefone" name="telefone" placeholder="(98)900000000" required pattern="\([0-9]{2}\)[0-9]{8,9}">
+                <input type="text" id="endereco" name="endereco" placeholder="Rua dos Carpinteiros, n 12, Centro" required>
+                <input type="text" id="cidade" name="cidade" placeholder="Teresina" required>
+                <button type="submit" class="btn-continue">Continuar</button>
+                <button type="button" class="btn-back" onclick="window.history.back();">Voltar</button>
+            </form>            
+        </div>
+    </div>
+</body>
+</html>

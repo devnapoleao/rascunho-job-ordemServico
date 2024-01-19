@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload de Documentos - Yelly</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Y.</div>
+            <h1>yelly</h1>
+            <ol class="steps">
+                <li>Criação da conta de usuário</li>
+                <li>Validação de E-mail e Celular</li>
+                <li>Configuração da conta</li>
+                <li>Dados básicos e endereço</li>
+                <li>Confirmação dos dados</li>
+            </ol>
+        </div>
+        <div class="form-container">
+            <div class="form-title">Etapa Final de Cadastro</div>
+            <p class="form-description">Para confirmar seus dados envie seus documentos em anexo</p>
+            <form action="documentos.php" method="post" enctype="multipart/form-data">
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input" id="documentos" name="documentos[]" multiple>
+                    <label class="custom-file-label" for="documentos">Escolha os arquivos</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-continue">Continuar</button>
+                <button type="button" class="btn btn-secondary btn-back" onclick="window.history.back();">Voltar</button>
+            </form>            
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.1.12/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Script para atualizar o label do custom file input com o nome do arquivo
+        $('.custom-file-input').on('change', function() { 
+           let fileName = $(this).val().split('\\').pop(); 
+           $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        });
+    </script>
+</body>
+</html>

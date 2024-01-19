@@ -1,0 +1,188 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    max-width: 800px; /* ajuste de acordo com a largura da imagem */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.sidebar {
+    background-color: #FFD600;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 36px; /* ajuste para corresponder ao tamanho do logotipo na imagem */
+    color: #fff;
+    background-color: #FFA000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px; /* ajuste para corresponder ao tamanho do logotipo na imagem */
+    height: 60px; /* ajuste para corresponder ao tamanho do logotipo na imagem */
+    border-radius: 50%;
+}
+
+h1 {
+    font-size: 24px; /* ajuste para corresponder ao tamanho do texto na imagem */
+    color: #333;
+    margin: 0;
+    font-weight: normal;
+}
+
+.steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.steps li {
+    margin-bottom: 10px;
+    font-size: 14px; /* ajuste para corresponder ao tamanho do texto na imagem */
+    color: #333;
+    line-height: 1.5;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 40px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-title {
+    font-size: 24px; /* ajuste para corresponder ao tamanho do texto na imagem */
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.form-description {
+    font-size: 14px; /* ajuste para corresponder ao tamanho do texto na imagem */
+    color: #666;
+    margin-bottom: 20px;
+}
+
+input[type=email] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* garante que padding não adicione largura */
+}
+
+.btn-continue {
+    background-color: #FFA000;
+    color: white;
+    border: none;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.btn-back {
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Responsividade e outros ajustes podem ser necessários */
+/* Estilos do Formulário */
+.form-container {
+    max-width: 400px; /* Ajuste conforme necessário */
+    background-color: #f8f8f8; /* Cor de fundo do container do formulário */
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.form-title {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.form-description {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+input[type="codigo"],
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+    width: 100%; /* Ocupa toda a largura do container */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd; /* Borda sutil */
+    border-radius: 4px; /* Bordas arredondadas */
+    box-sizing: border-box; /* O padding não afeta a largura total do elemento */
+}
+
+input[type="codigo"]::placeholder { /* Estilo do placeholder */
+    color: #bbb;
+}
+
+.btn-continue,
+.btn-back {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-right: 10px; /* Espaço entre os botões */
+}
+
+.btn-continue {
+    background-color: #5cb85c; /* Cor de fundo para 'Continuar' */
+    color: white; /* Cor do texto */
+}
+
+.btn-back {
+    background-color: #f0f0f0; /* Cor de fundo para 'Voltar' */
+    color: #333; /* Cor do texto */
+}
+
+.btn-back:hover {
+    background-color: #e0e0e0; /* Cor de fundo do botão 'Voltar' ao passar o mouse */
+}
+
+/* Adiciona um estilo ao focar no input */
+input[type="codigo"]:focus {
+    border-color: #5cb85c;
+    outline: none; /* Remove o contorno padrão do navegador */
+}
+
+/* Estilos para telas pequenas */
+@media (max-width: 768px) {
+    .form-container {
+        width: 90%; /* Ocupa mais espaço em telas menores */
+    }
+}

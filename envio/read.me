@@ -1,0 +1,44 @@
+Ordem De Serviço com Autenticação
+
+Necessário para rodar
+
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    telefone VARCHAR(50),
+    endereco VARCHAR(255),
+    cidade VARCHAR(100),
+    senha VARCHAR(255), -- Se autenticação for necessária
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE ordens_servico (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT,
+    descricao TEXT,
+    status VARCHAR(50) DEFAULT 'Pendente',
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+CREATE TABLE documentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ordem_servico_id INT,
+    caminho_do_arquivo VARCHAR(255),
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ordem_servico_id) REFERENCES ordens_servico(id)
+);
+
+CREATE TABLE documentos_retorno (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ordem_servico_id INT,
+    caminho_do_arquivo VARCHAR(255),
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ordem_servico_id) REFERENCES ordens_servico(id)
+);
+
+
+ALTER TABLE clientes 
+ADD COLUMN codigo_acesso VARCHAR(255) DEFAULT NULL,
+ADD COLUMN codigo_acesso_timestamp TIMESTAMP NULL;

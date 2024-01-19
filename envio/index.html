@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Usuário - Yelly</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Y.</div>
+            <h1>yelly</h1>
+            <ol class="steps">
+                <li>Criação da conta de usuário</li>
+                <li>Validação de E-mail e Celular</li>
+                <li>Configuração da conta</li>
+                <li>Dados básicos e endereço</li>
+                <li>Confirmação dos dados</li>
+            </ol>
+        </div>
+        <div class="form-container">
+            <div class="form-title">Criar usuário</div>
+            <p class="form-description">Informe o e-mail para criação da conta. Nos próximos passos validaremos este e-mail.</p>
+            <form action="email.php" method="post">
+                <input type="email" id="email" name="email" placeholder="email@dominio.com.br" required>
+                <button type="submit" class="btn-continue">Continuar</button>
+                <button type="button" class="btn-back" onclick="window.history.back();">Voltar</button>
+            </form>            
+        </div>
+    </div>
+</body>
+</html>
