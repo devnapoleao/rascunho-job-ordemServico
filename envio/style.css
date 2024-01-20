@@ -17,7 +17,7 @@ body, html {
 }
 
 .sidebar {
-    background-color: #FFD600;
+    background-color: #044cac;
     padding: 40px;
     display: flex;
     flex-direction: column;
@@ -52,7 +52,7 @@ h1 {
 .steps li {
     margin-bottom: 10px;
     font-size: 14px; /* ajuste para corresponder ao tamanho do texto na imagem */
-    color: #333;
+    color: #ffffff;
     line-height: 1.5;
 }
 
@@ -87,7 +87,7 @@ input[type=email] {
 }
 
 .btn-continue {
-    background-color: #FFA000;
+    background-color: #044cac;
     color: white;
     border: none;
     padding: 15px;
@@ -161,7 +161,7 @@ input[type="codigo"]::placeholder { /* Estilo do placeholder */
 }
 
 .btn-continue {
-    background-color: #5cb85c; /* Cor de fundo para 'Continuar' */
+    background-color: #044cac; /* Cor de fundo para 'Continuar' */
     color: white; /* Cor do texto */
 }
 

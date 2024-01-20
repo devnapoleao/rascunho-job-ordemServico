@@ -1,5 +1,13 @@
 Ordem De Serviço com Autenticação
 
+
+Últimas atualizações a se fazer:
+-mostrar somente as ordem de cada cliente  
+-proteger o dash do adm
+-proteger os arquivos em documentos
+
+
+
 Necessário para rodar
 
 CREATE TABLE clientes (
@@ -42,3 +50,5 @@ CREATE TABLE documentos_retorno (
 ALTER TABLE clientes 
 ADD COLUMN codigo_acesso VARCHAR(255) DEFAULT NULL,
 ADD COLUMN codigo_acesso_timestamp TIMESTAMP NULL;
+
+ALTER TABLE documentos ADD COLUMN cliente_id INT;

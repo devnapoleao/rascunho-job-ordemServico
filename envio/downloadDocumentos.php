@@ -2,40 +2,46 @@
 session_start();
 require 'back/config.php';
 
-if (isset($_GET['cliente_id'])) {
-    $cliente_id = $_GET['cliente_id'];
-    $diretorio = "documentos/" . $cliente_id . "/";
+if (isset($_GET['os_id'])) {
+    $ordem_servico_id = $_GET['os_id'];
+    $diretorio = "documentos/" . $ordem_servico_id . "/";
 
     if (is_dir($diretorio)) {
-        // Cria um arquivo zip temporário
-        $zipNome = "Documentos-Cliente-" . $cliente_id . ".zip";
+        $zipNome = "Documentos-OrdemServico-" . $ordem_servico_id . ".zip";
         $zip = new ZipArchive();
 
-        if ($zip->open($zipNome, ZipArchive::CREATE) === TRUE) {
-            // Adiciona todos os arquivos do diretório ao arquivo zip
-            $arquivos = new DirectoryIterator($diretorio);
-            foreach ($arquivos as $arquivo) {
-                if (!$arquivo->isDot()) {
-                    $zip->addFile($diretorio . $arquivo->getFilename(), $arquivo->getFilename());
+        if ($zip->open($zipNome, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+            $files = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($diretorio, RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::CHILD_FIRST
+            );
+
+            foreach ($files as $file) {
+                if ($file->isFile()) {
+                    $filePath = $file->getRealPath();
+                    // Adiciona o arquivo ao zip com o nome do arquivo apenas, sem o caminho completo
+                    $zip->addFile($filePath, basename($filePath));
                 }
             }
+
             $zip->close();
 
-            // Envia o arquivo zip para o cliente
+            // Envia o arquivo zip para o cliente como download
             header('Content-Type: application/zip');
             header('Content-Disposition: attachment; filename="' . basename($zipNome) . '"');
             header('Content-Length: ' . filesize($zipNome));
             readfile($zipNome);
 
-            // Remove o arquivo zip após o download
+            // Apaga o arquivo zip após o download
             unlink($zipNome);
+            exit;
         } else {
             echo "Não foi possível criar o arquivo zip.";
         }
     } else {
-        echo "Nenhum documento encontrado para este cliente.";
+        echo "Nenhum documento encontrado para esta ordem de serviço.";
     }
 } else {
-    echo "ID do cliente não fornecido.";
+    echo "ID da ordem de serviço não fornecido.";
 }
 ?>

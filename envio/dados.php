@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'], $_SESSION['em
         $pdo->commit();
 
         // Redirecionar para a página de confirmação ou próxima etapa
-        header("Location: ordemServico.php");
+        header("Location: documentos.html");
         exit;
 
     } catch (Exception $e) {

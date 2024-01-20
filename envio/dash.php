@@ -57,7 +57,7 @@ try {
                                 </select>
                                 <button type="submit">Atualizar</button>
                             </form>
-                            <a href="downloadDocumentos.php?os_id=<?php echo $cliente['os_id']; ?>">Download Documentos</a>
+                            <a href="downloadDocumentos.php?os_id=<?php echo $cliente['id']; ?>">Download Documentos</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
