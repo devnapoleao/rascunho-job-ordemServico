@@ -2,7 +2,7 @@
 session_start();
 require 'back/config.php';
 
-// Verifica se o e-mail está na sessão
+// Verifica se há um e-mail na sessão
 if (!isset($_SESSION['email'])) {
     die("Por favor, faça login novamente.");
 }
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['descricao'])) {
 <body>
     <div class="container mt-4">
         <h2>Criar Ordem de Serviço</h2>
-        <form action="ordemServico.php" method="post">
+        <form action="ordemServicoCRUD.php" method="post">
             <div class="form-group">
                 <label for="descricao">Digite o que deseja:</label>
                 <textarea class="form-control" id="descricao" name="descricao" rows="3" required></textarea>
@@ -59,24 +59,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['descricao'])) {
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Cliente ID</th>
-                    <th scope="col">Descrição</th>
+                    <th scope="col">Ordem de Serviço</th>
+                    <th scope="col">Cliente</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Criado em</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 try {
-                    $stmt = $pdo->query("SELECT * FROM ordens_servico");
+                    $stmt = $pdo->query("SELECT os.id, c.nome, os.status FROM ordens_servico os JOIN clientes c ON os.cliente_id = c.id");
                     while ($ordem = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($ordem['id']) . "</td>";
-                        echo "<td>" . htmlspecialchars($ordem['cliente_id']) . "</td>";
-                        echo "<td>" . htmlspecialchars($ordem['descricao']) . "</td>";
+                        echo "<td>" . htmlspecialchars($ordem['nome']) . "</td>";
                         echo "<td>" . htmlspecialchars($ordem['status']) . "</td>";
-                        echo "<td>" . htmlspecialchars($ordem['criado_em']) . "</td>";
                         echo "</tr>";
                     }
                 } catch (PDOException $e) {

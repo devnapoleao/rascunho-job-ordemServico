@@ -3,17 +3,18 @@ session_start();
 
 require 'back/config.php';
 
-// Verifica se o e-mail está na sessão e se o formulário foi submetido
-if (!isset($_SESSION['email'])) {
-    exit('A sessão expirou ou o e-mail não foi fornecido. Por favor, tente reenviar o código.');
-}
-
+// Verifica se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['codigo'])) {
     $codigo = $_POST['codigo'];
+
+    if (!isset($_SESSION['email'])) {
+        exit('A sessão expirou ou o e-mail não foi fornecido. Por favor, tente reenviar o código.');
+    }
+
     $email = $_SESSION['email'];
 
     try {
-        $stmt = $pdo->prepare("SELECT codigo_acesso, codigo_acesso_timestamp FROM clientes WHERE email = ? LIMIT 1");
+        $stmt = $pdo->prepare("SELECT id, codigo_acesso, codigo_acesso_timestamp FROM clientes WHERE email = ? LIMIT 1");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
@@ -29,8 +30,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['codigo'])) {
 
         if ($user['codigo_acesso'] === $codigo && $minutes < 15) {
             // Código correto e ainda válido
-            header("Location: dados.html");
-            exit;
+            // Verificar se já existe ordem de serviço para este cliente
+            $stmt = $pdo->prepare("SELECT id FROM ordens_servico WHERE cliente_id = ?");
+            $stmt->execute([$user['id']]);
+            $ordemServico = $stmt->fetch();
+
+            if ($ordemServico) {
+                // Existe ordem de serviço, redirecionar para ordemServico.php
+                header("Location: ordemServico.php");
+                exit;
+            } else {
+                // Não existe ordem de serviço, redirecionar para outra página conforme necessário
+                header("Location: dados.php");
+                exit;
+            }
         } else {
             exit('O código informado está incorreto ou expirou.');
         }

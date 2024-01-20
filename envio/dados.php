@@ -1,41 +1,75 @@
 <?php
-// Incluir o arquivo de configuração do banco de dados
+// Iniciar a sessão e incluir a configuração do banco de dados
+session_start();
 require 'back/config.php';
 
-// Verificar se o formulário foi submetido via POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recuperar os dados do formulário
-    $nome = $_POST['nome'];
-    $telefone = $_POST['telefone'];
-    $endereco = $_POST['endereco'];
-    $cidade = $_POST['cidade'];
-
-    // Preparar a declaração SQL
-    $sql = "INSERT INTO clientes (nome, telefone, endereco, cidade) VALUES (:nome, :telefone, :endereco, :cidade)";
+// Se os dados forem postados, processar o formulário
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'], $_SESSION['email'])) {
+    // Captura os dados do formulário
+    $email = $_SESSION['email']; // Usando o e-mail da sessão para garantir consistência
+    $nome = $_POST['nome'] ?? '';
+    $telefone = $_POST['telefone'] ?? '';
+    $endereco = $_POST['endereco'] ?? '';
+    $cidade = $_POST['cidade'] ?? '';
 
     try {
-        // Preparar a declaração preparada
-        $stmt = $pdo->prepare($sql);
+        // Iniciar transação para garantir atomicidade
+        $pdo->beginTransaction();
 
-        // Vincular os parâmetros aos valores do formulário
-        $stmt->bindParam(':nome', $nome);
-        $stmt->bindParam(':telefone', $telefone);
-        $stmt->bindParam(':endereco', $endereco);
-        $stmt->bindParam(':cidade', $cidade);
+        // Verificar se já existe um cliente com esse e-mail
+        $stmt = $pdo->prepare("SELECT id FROM clientes WHERE email = ?");
+        $stmt->execute([$email]);
+        $cliente = $stmt->fetch();
 
-        // Executar a declaração preparada
-        $stmt->execute();
+        if ($cliente) {
+            // Cliente existe, atualiza os dados
+            $stmt = $pdo->prepare("UPDATE clientes SET nome = ?, telefone = ?, endereco = ?, cidade = ? WHERE email = ?");
+            $stmt->execute([$nome, $telefone, $endereco, $cidade, $email]);
+        } else {
+            // Cliente não existe, lança um erro
+            throw new Exception("Nenhum cliente existente com esse e-mail foi encontrado.");
+        }
 
-        // Redirecionar para uma nova página ou informar sucesso
-        header("Location: documentos.html"); // Substitua por sua página de sucesso
+        // Concluir a transação
+        $pdo->commit();
+
+        // Redirecionar para a página de confirmação ou próxima etapa
+        header("Location: ordemServico.php");
         exit;
-    } catch (PDOException $e) {
-        // Tratar erro
-        die("Erro ao inserir dados: " . $e->getMessage());
+
+    } catch (Exception $e) {
+        // Desfazer a transação em caso de erro
+        $pdo->rollBack();
+        die("Erro: " . $e->getMessage());
     }
-} else {
-    // Redirecionar de volta para o formulário se o método não for POST
-    header("Location: index.html"); // Substitua pelo seu arquivo de formulário
-    exit;
 }
 ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Usuário - Yelly</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ... sidebar e outros elementos ... -->
+        <div class="form-container">
+            <div class="form-title">Para dar continuidade informe alguns dados básicos</div>
+            <p class="form-description">Após esse pré-cadastro não precisará fazer isso novamente!</p>
+            <form action="dados.php" method="post">
+                <input type="hidden" id="email" name="email" value="<?php echo $_SESSION['email']; ?>">
+                <input type="text" id="nome" name="nome" placeholder="Exemplo: Napoleão de Viana Assunção" required>
+                <input type="tel" id="telefone" name="telefone" placeholder="(98)900000000">
+                <input type="text" id="endereco" name="endereco" placeholder="Rua dos Carpinteiros, n 12, Centro" required>
+                <input type="text" id="cidade" name="cidade" placeholder="Teresina" required>
+                <button type="submit" class="btn-continue">Continuar</button>
+                <button type="button" class="btn-back" onclick="window.history.back();">Voltar</button>
+            </form>            
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.1.12/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
